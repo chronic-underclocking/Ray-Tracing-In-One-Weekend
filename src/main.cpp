@@ -4,7 +4,34 @@
 
 #include <iostream>
 
+// (Cx−X)^2 + (Cy−Y)^2 + (Cz−Z)^2 = r^2
+// (C−P)⋅(C−P) = (Cx−X)^2 + (Cy−Y)^2 + (Cz−Z)^2
+// (C−P)⋅(C−P) = r^2
+// P(t) = Q + td
+// (C−P(t))⋅(C−P(t)) = r^2
+// (C−(Q+td))⋅(C−(Q+td)) = r^2
+// (−td+(C−Q))⋅(−td+(C−Q)) = r^2
+// (t^2)d⋅d − 2td⋅(C−Q) + (C−Q)⋅(C−Q) = r^2
+// (t^2)d⋅d − 2td⋅(C−Q) + (C−Q)⋅(C−Q) − r^2 = 0
+// at^2 + bt + c = 0,
+// (−b ± √( b^2 − 4ac )) / 2a
+//
+// a = d⋅d
+// b = −2d⋅(C−Q)
+// c = (C−Q)⋅(C−Q) − r^2
+bool hit_sphere(const point3& center, double radius, const ray& r) {
+    vec3 oc = center - r.origin();
+    auto a = dot(r.direction(), r.direction());
+    auto b = -2.0 * dot(r.direction(), oc);
+    auto c = dot(oc, oc) - radius * radius;
+    auto discriminant = b * b - 4 * a * c;
+    return (discriminant >= 0);
+}
+
 color ray_color(const ray& r) {
+    if (hit_sphere(point3(0, 0, -1), 0.5, r))
+        return color(1, 0, 0);
+
     vec3 unit_direction = unit_vector(r.direction());
     auto a = 0.5 * (unit_direction.y() + 1.0);
     return (1.0 - a) * color(1.0, 1.0, 1.0) + a * color(0.5, 0.7, 1.0);
