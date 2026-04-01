@@ -11,7 +11,7 @@ if (POLICY CMP0141)
 endif()
 
 # Add source to this project's executable.
-add_executable (RayTracingInOneWeekend "src/main.cpp"   "src/vec3.h" "src/color.h" "src/ray.h"  "src/hittable.h" "src/sphere.h" "src/hittable_list.h" "src/rtweekend.h" "src/interval.h")
+add_executable (RayTracingInOneWeekend "src/main.cpp"   "src/vec3.h" "src/color.h" "src/ray.h"  "src/hittable.h" "src/sphere.h" "src/hittable_list.h" "src/rtweekend.h" "src/interval.h" "src/camera.h")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET RayTracingInOneWeekend PROPERTY CXX_STANDARD 20)
