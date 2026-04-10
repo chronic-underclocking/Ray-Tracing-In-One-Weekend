@@ -4,7 +4,8 @@
 
 class sphere : public hittable {
   public:
-    sphere(const point3& center, double radius) : center(center), radius(std::fmax(0,radius)) {}
+    sphere(const point3& center, double radius, shared_ptr<material> mat)
+      : center(center), radius(std::fmax(0,radius)), mat(mat) {}
 
     // (Cx−X)^2 + (Cy−Y)^2 + (Cz−Z)^2 = r^2
     // (C−P)⋅(C−P) = (Cx−X)^2 + (Cy−Y)^2 + (Cz−Z)^2
@@ -47,6 +48,7 @@ class sphere : public hittable {
         rec.p = r.at(rec.t);
         vec3 outward_normal = (rec.p - center) / radius;
         rec.set_face_normal(r, outward_normal);
+        rec.mat = mat;
 
         return true;
     }
@@ -54,4 +56,5 @@ class sphere : public hittable {
   private:
     point3 center;
     double radius;
+    shared_ptr<material> mat;
 };
